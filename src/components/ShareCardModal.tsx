@@ -196,8 +196,10 @@ export const ShareCardModal: React.FC<ShareCardModalProps> = ({
     ctx.font = '700 18px "JetBrains Mono", monospace';
     ctx.fillText(
       subsequentGtaReleases.length === 0
-        ? '0 RELEASES SINCE (ACTIVE)'
-        : `${subsequentGtaReleases.length} MAINLINE GTA RELEASES SINCE`,
+        ? '0 RELEASES SINCE (GTA VI ERA)'
+        : `${subsequentGtaReleases.length} MAINLINE GTA ${
+            subsequentGtaReleases.length === 1 ? 'RELEASE' : 'RELEASES'
+          } SINCE`,
       768,
       462
     );
@@ -206,7 +208,7 @@ export const ShareCardModal: React.FC<ShareCardModalProps> = ({
     ctx.font = '400 15px "Inter", sans-serif';
     ctx.fillText(
       subsequentGtaReleases.length === 0
-        ? '2025–26 NFL Postseason Cycle'
+        ? 'Current Era (Nov 19, 2026+)'
         : subsequentGtaReleases.map((e) => e.shortLabel).join(', '),
       768,
       494

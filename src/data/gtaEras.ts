@@ -39,7 +39,7 @@ export const GTA_ERAS: GtaEra[] = [
     fullTitle: 'PRE-GRAND THEFT AUTO ERA',
     eraBadge: 'Pre-GTA Era',
     releaseDate: null,
-    releaseDisplay: 'Before Nov 28, 1997',
+    releaseDisplay: 'Before November 28, 1997',
     platforms: 'SNES / Sega Genesis / Arcade',
     setting: 'Before Liberty City Existed',
     tagline: 'DMA Design had not yet shipped the original top-down Grand Theft Auto.',
@@ -98,8 +98,8 @@ export const GTA_ERAS: GtaEra[] = [
     chipLabel: 'GTA III',
     fullTitle: 'GRAND THEFT AUTO III',
     eraBadge: 'GTA III Era',
-    releaseDate: '2001-10-22',
-    releaseDisplay: 'Released October 22, 2001',
+    releaseDate: '2001-10-23',
+    releaseDisplay: 'Released October 23, 2001',
     platforms: 'PlayStation 2',
     setting: 'Liberty City (3D Universe)',
     tagline: 'Open-world 3D gaming was born on the PS2 with Claude in Portland.',
@@ -118,8 +118,8 @@ export const GTA_ERAS: GtaEra[] = [
     chipLabel: 'Vice City',
     fullTitle: 'GRAND THEFT AUTO: VICE CITY',
     eraBadge: 'Vice City Era',
-    releaseDate: '2002-10-29',
-    releaseDisplay: 'Released October 29, 2002',
+    releaseDate: '2002-10-27',
+    releaseDisplay: 'Released October 27, 2002',
     platforms: 'PlayStation 2',
     setting: 'Vice City, 1986',
     tagline: 'Tommy Vercetti, pastel suits, Flash FM, and Ocean Beach neon.',
@@ -182,7 +182,7 @@ export const GTA_ERAS: GtaEra[] = [
     releaseDisplay: 'Released September 17, 2013',
     platforms: 'PS3 / Xbox 360 / PS4 / PS5',
     setting: 'Los Santos & Blaine County',
-    tagline: 'Spanned three console generations while franchises waited for January.',
+    tagline: 'Spanned three console generations and 13 NFL seasons before Vice City returned.',
     accentHex: '#38BDF8',
     secondaryHex: '#0284C7',
     bgTint: 'rgba(56, 189, 248, 0.11)',
@@ -195,14 +195,14 @@ export const GTA_ERAS: GtaEra[] = [
   {
     id: 'gta_6',
     shortLabel: 'GTA VI',
-    chipLabel: 'GTA VI / Active',
+    chipLabel: 'GTA VI',
     fullTitle: 'GRAND THEFT AUTO VI',
-    eraBadge: 'GTA VI / Active',
+    eraBadge: 'GTA VI Era',
     releaseDate: '2026-11-19',
-    releaseDisplay: '2026 Release Cycle • Active Field',
+    releaseDisplay: 'Released November 19, 2026',
     platforms: 'PS5 / Xbox Series X|S',
     setting: 'Vice City & State of Leonida',
-    tagline: 'Current postseason cycle — fresh off the 2025–26 NFL playoff bracket.',
+    tagline: 'Launched Nov 19, 2026 — awaiting the first NFL playoff snap of the GTA VI era.',
     accentHex: '#00F0FF',
     secondaryHex: '#FF2A85',
     bgTint: 'rgba(0, 240, 255, 0.11)',
@@ -223,29 +223,34 @@ export const GTA_ERA_MAP: Record<GtaEraId, GtaEra> = GTA_ERAS.reduce(
 );
 
 /**
- * Classifies an NFL milestone date (YYYY-MM-DD) into its corresponding GTA era.
- * Dates from the current 2025–26 postseason (Jan–Feb 2026 onward) map to the active GTA VI cycle.
- * Null dates (franchises that have never reached the milestone) map to Pre-GTA.
+ * Strictly classifies an NFL milestone date (YYYY-MM-DD) into the exact GTA mainline era
+ * active on that calendar date. Null dates (never achieved) map to Pre-GTA.
  */
 export function resolveGtaEra(isoDate: string | null): GtaEra {
   if (!isoDate) return GTA_ERA_MAP.pre_gta;
 
-  // 2025–26 NFL postseason (Jan 2026+) belongs to the active GTA VI cycle
-  if (isoDate >= '2026-01-01') return GTA_ERA_MAP.gta_6;
+  if (isoDate >= '2026-11-19') return GTA_ERA_MAP.gta_6;
   if (isoDate >= '2013-09-17') return GTA_ERA_MAP.gta_5;
   if (isoDate >= '2008-04-29') return GTA_ERA_MAP.gta_4;
   if (isoDate >= '2004-10-26') return GTA_ERA_MAP.san_andreas;
-  if (isoDate >= '2002-10-29') return GTA_ERA_MAP.vice_city;
-  if (isoDate >= '2001-10-22') return GTA_ERA_MAP.gta_3;
+  if (isoDate >= '2002-10-27') return GTA_ERA_MAP.vice_city;
+  if (isoDate >= '2001-10-23') return GTA_ERA_MAP.gta_3;
   if (isoDate >= '1999-10-22') return GTA_ERA_MAP.gta_2;
   if (isoDate >= '1997-11-28') return GTA_ERA_MAP.gta_1;
   return GTA_ERA_MAP.pre_gta;
 }
 
 /**
- * Returns the list of mainline GTA releases launched strictly AFTER the given era.
+ * Returns the list of mainline GTA releases launched strictly AFTER the given era
+ * (and already released on or before today).
  */
-export function getSubsequentGtaReleases(eraId: GtaEraId): GtaEra[] {
+export function getSubsequentGtaReleases(eraId: GtaEraId, nowMs: number = Date.now()): GtaEra[] {
   const current = GTA_ERA_MAP[eraId];
-  return GTA_ERAS.filter((e) => e.isMainlineRelease && e.order > current.order);
+  return GTA_ERAS.filter((e) => {
+    if (!e.isMainlineRelease || e.order <= current.order || !e.releaseDate) {
+      return false;
+    }
+    // Treat release day as active starting 00:00 UTC on releaseDate
+    return Date.parse(`${e.releaseDate}T00:00:00Z`) <= nowMs;
+  });
 }
