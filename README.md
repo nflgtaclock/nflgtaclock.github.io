@@ -1,6 +1,6 @@
 # Droughts in Vice & Liberty (`nflgtaclock.github.io`)
 
-Measuring NFL franchise postseason misery in Grand Theft Auto release eras across all 32 teams.
+Measuring NFL franchise postseason misery in Grand Theft Auto release eras across all 32 teams. Inspired by an NFLSE conversation during the Ravens "rebuild your franchise" video in 2026.
 
 **Live Organization Site:** https://nflgtaclock.github.io/
 
