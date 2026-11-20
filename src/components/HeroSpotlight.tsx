@@ -395,8 +395,8 @@ export const HeroSpotlight: React.FC<HeroSpotlightProps> = ({
               <p className="text-xs text-[#8B949E]">
                 {subsequentGtaReleases.length === 0 ? (
                   <span>
-                    Active in the <strong className="text-[#00F0FF]">2025–26 postseason</strong>{' '}
-                    cycle. No new mainline GTA has launched since.
+                    Active in the <strong className="text-[#00F0FF]">GTA VI era</strong> (launched
+                    Nov 19, 2026). No newer mainline GTA has released since.
                   </span>
                 ) : (
                   <span>

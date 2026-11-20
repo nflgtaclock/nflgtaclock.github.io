@@ -31,11 +31,11 @@ export function getReferenceTimestamp(team: NflTeam, record: MilestoneRecord): {
   ms: number;
 } {
   const iso = record.date ?? team.sbEraStartDate;
-  const timePart = record.kickoffUtc ?? '20:00:00Z';
-  const parsed = Date.parse(`${iso}T${timePart}`);
+  const timePart = record.kickoffEt ?? '15:00';
+  const parsed = Date.parse(`${iso}T${timePart}:00-05:00`);
   return {
     iso,
-    ms: Number.isNaN(parsed) ? Date.parse(`${iso}T20:00:00Z`) : parsed,
+    ms: Number.isNaN(parsed) ? Date.parse(`${iso}T15:00:00-05:00`) : parsed,
   };
 }
 
@@ -128,7 +128,7 @@ export function buildRankedEntries(
     const isNever = record.date === null;
     const { iso, ms } = getReferenceTimestamp(team, record);
     const era = resolveGtaEra(record.date);
-    const subsequentGtaReleases = getSubsequentGtaReleases(era.id);
+    const subsequentGtaReleases = getSubsequentGtaReleases(era.id, nowMs);
     return {
       team,
       milestone,

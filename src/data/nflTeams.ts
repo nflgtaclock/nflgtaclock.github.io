@@ -69,10 +69,10 @@ export type Division =
   | 'NFC West';
 
 export interface MilestoneRecord {
-  /** ISO date YYYY-MM-DD (UTC kickoff date), or null if franchise has never achieved it */
+  /** Exact game calendar date in Eastern Time (YYYY-MM-DD), or null if never achieved */
   date: string | null;
-  /** Kickoff hour in UTC (approximate typical NFL slot for realistic live seconds counter) */
-  kickoffUtc?: string;
+  /** Kickoff time in Eastern Standard Time (HH:MM, 24h, UTC-05:00) for accurate live countdown */
+  kickoffEt?: string;
   outcome: 'W' | 'L' | null;
   score: string | null;
   opponentAbbr: string | null;
@@ -110,6 +110,7 @@ const NEVER_RECORD: MilestoneRecord = {
 /**
  * Verified NFL Postseason Milestone Dataset for all 32 franchises.
  * Updated through the 2025–26 NFL Postseason (Super Bowl LX, Feb 8, 2026).
+ * All game dates and kickoff times use official Eastern Standard Time (UTC-05:00).
  */
 export const NFL_TEAMS: NflTeam[] = [
   {
@@ -127,7 +128,7 @@ export const NFL_TEAMS: NflTeam[] = [
     milestones: {
       playoff_game: {
         date: '2011-01-23',
-        kickoffUtc: '23:30:00Z',
+        kickoffEt: '18:30',
         outcome: 'L',
         score: '19–24',
         opponentAbbr: 'PIT',
@@ -137,7 +138,7 @@ export const NFL_TEAMS: NflTeam[] = [
       },
       playoff_win: {
         date: '2011-01-16',
-        kickoffUtc: '21:30:00Z',
+        kickoffEt: '16:30',
         outcome: 'W',
         score: '28–21',
         opponentAbbr: 'NE',
@@ -147,7 +148,7 @@ export const NFL_TEAMS: NflTeam[] = [
       },
       conf_champ: {
         date: '2011-01-23',
-        kickoffUtc: '23:30:00Z',
+        kickoffEt: '18:30',
         outcome: 'L',
         score: '19–24',
         opponentAbbr: 'PIT',
@@ -157,7 +158,7 @@ export const NFL_TEAMS: NflTeam[] = [
       },
       sb_appearance: {
         date: '1969-01-12',
-        kickoffUtc: '20:05:00Z',
+        kickoffEt: '15:05',
         outcome: 'W',
         score: '16–7',
         opponentAbbr: 'IND',
@@ -167,7 +168,7 @@ export const NFL_TEAMS: NflTeam[] = [
       },
       sb_win: {
         date: '1969-01-12',
-        kickoffUtc: '20:05:00Z',
+        kickoffEt: '15:05',
         outcome: 'W',
         score: '16–7',
         opponentAbbr: 'IND',
@@ -192,7 +193,7 @@ export const NFL_TEAMS: NflTeam[] = [
     milestones: {
       playoff_game: {
         date: '2018-01-13',
-        kickoffUtc: '21:35:00Z',
+        kickoffEt: '16:35',
         outcome: 'L',
         score: '10–15',
         opponentAbbr: 'PHI',
@@ -202,7 +203,7 @@ export const NFL_TEAMS: NflTeam[] = [
       },
       playoff_win: {
         date: '2018-01-06',
-        kickoffUtc: '01:15:00Z',
+        kickoffEt: '20:15',
         outcome: 'W',
         score: '26–13',
         opponentAbbr: 'LAR',
@@ -212,7 +213,7 @@ export const NFL_TEAMS: NflTeam[] = [
       },
       conf_champ: {
         date: '2017-01-22',
-        kickoffUtc: '20:05:00Z',
+        kickoffEt: '15:05',
         outcome: 'W',
         score: '44–21',
         opponentAbbr: 'GB',
@@ -222,7 +223,7 @@ export const NFL_TEAMS: NflTeam[] = [
       },
       sb_appearance: {
         date: '2017-02-05',
-        kickoffUtc: '23:30:00Z',
+        kickoffEt: '18:30',
         outcome: 'L',
         score: '28–34 (OT)',
         opponentAbbr: 'NE',
@@ -248,7 +249,7 @@ export const NFL_TEAMS: NflTeam[] = [
     milestones: {
       playoff_game: {
         date: '2021-01-09',
-        kickoffUtc: '18:05:00Z',
+        kickoffEt: '13:05',
         outcome: 'L',
         score: '24–27',
         opponentAbbr: 'BUF',
@@ -258,7 +259,7 @@ export const NFL_TEAMS: NflTeam[] = [
       },
       playoff_win: {
         date: '2019-01-05',
-        kickoffUtc: '21:35:00Z',
+        kickoffEt: '16:35',
         outcome: 'W',
         score: '21–7',
         opponentAbbr: 'HOU',
@@ -268,7 +269,7 @@ export const NFL_TEAMS: NflTeam[] = [
       },
       conf_champ: {
         date: '2015-01-18',
-        kickoffUtc: '23:40:00Z',
+        kickoffEt: '18:40',
         outcome: 'L',
         score: '7–45',
         opponentAbbr: 'NE',
@@ -278,7 +279,7 @@ export const NFL_TEAMS: NflTeam[] = [
       },
       sb_appearance: {
         date: '2010-02-07',
-        kickoffUtc: '23:25:00Z',
+        kickoffEt: '18:25',
         outcome: 'L',
         score: '17–31',
         opponentAbbr: 'NO',
@@ -288,7 +289,7 @@ export const NFL_TEAMS: NflTeam[] = [
       },
       sb_win: {
         date: '2007-02-04',
-        kickoffUtc: '23:25:00Z',
+        kickoffEt: '18:25',
         outcome: 'W',
         score: '29–17',
         opponentAbbr: 'CHI',
@@ -313,7 +314,7 @@ export const NFL_TEAMS: NflTeam[] = [
     milestones: {
       playoff_game: {
         date: '2021-01-17',
-        kickoffUtc: '23:40:00Z',
+        kickoffEt: '18:40',
         outcome: 'L',
         score: '20–30',
         opponentAbbr: 'TB',
@@ -323,7 +324,7 @@ export const NFL_TEAMS: NflTeam[] = [
       },
       playoff_win: {
         date: '2021-01-10',
-        kickoffUtc: '21:40:00Z',
+        kickoffEt: '16:40',
         outcome: 'W',
         score: '21–9',
         opponentAbbr: 'CHI',
@@ -333,7 +334,7 @@ export const NFL_TEAMS: NflTeam[] = [
       },
       conf_champ: {
         date: '2019-01-20',
-        kickoffUtc: '20:05:00Z',
+        kickoffEt: '15:05',
         outcome: 'L',
         score: '23–26 (OT)',
         opponentAbbr: 'LAR',
@@ -343,7 +344,7 @@ export const NFL_TEAMS: NflTeam[] = [
       },
       sb_appearance: {
         date: '2010-02-07',
-        kickoffUtc: '23:25:00Z',
+        kickoffEt: '18:25',
         outcome: 'W',
         score: '31–17',
         opponentAbbr: 'IND',
@@ -353,7 +354,7 @@ export const NFL_TEAMS: NflTeam[] = [
       },
       sb_win: {
         date: '2010-02-07',
-        kickoffUtc: '23:25:00Z',
+        kickoffEt: '18:25',
         outcome: 'W',
         score: '31–17',
         opponentAbbr: 'IND',
@@ -378,7 +379,7 @@ export const NFL_TEAMS: NflTeam[] = [
     milestones: {
       playoff_game: {
         date: '2022-01-15',
-        kickoffUtc: '21:30:00Z',
+        kickoffEt: '16:30',
         outcome: 'L',
         score: '19–26',
         opponentAbbr: 'CIN',
@@ -388,7 +389,7 @@ export const NFL_TEAMS: NflTeam[] = [
       },
       playoff_win: {
         date: '2003-01-19',
-        kickoffUtc: '23:30:00Z',
+        kickoffEt: '18:30',
         outcome: 'W',
         score: '41–24',
         opponentAbbr: 'TEN',
@@ -398,7 +399,7 @@ export const NFL_TEAMS: NflTeam[] = [
       },
       conf_champ: {
         date: '2003-01-19',
-        kickoffUtc: '23:30:00Z',
+        kickoffEt: '18:30',
         outcome: 'W',
         score: '41–24',
         opponentAbbr: 'TEN',
@@ -408,7 +409,7 @@ export const NFL_TEAMS: NflTeam[] = [
       },
       sb_appearance: {
         date: '2003-01-26',
-        kickoffUtc: '23:25:00Z',
+        kickoffEt: '18:25',
         outcome: 'L',
         score: '21–48',
         opponentAbbr: 'TB',
@@ -418,7 +419,7 @@ export const NFL_TEAMS: NflTeam[] = [
       },
       sb_win: {
         date: '1984-01-22',
-        kickoffUtc: '21:30:00Z',
+        kickoffEt: '16:30',
         outcome: 'W',
         score: '38–9',
         opponentAbbr: 'WAS',
@@ -443,7 +444,7 @@ export const NFL_TEAMS: NflTeam[] = [
     milestones: {
       playoff_game: {
         date: '2022-01-17',
-        kickoffUtc: '01:15:00Z',
+        kickoffEt: '20:15',
         outcome: 'L',
         score: '11–34',
         opponentAbbr: 'LAR',
@@ -453,7 +454,7 @@ export const NFL_TEAMS: NflTeam[] = [
       },
       playoff_win: {
         date: '2016-01-16',
-        kickoffUtc: '01:15:00Z',
+        kickoffEt: '20:15',
         outcome: 'W',
         score: '26–20 (OT)',
         opponentAbbr: 'GB',
@@ -463,7 +464,7 @@ export const NFL_TEAMS: NflTeam[] = [
       },
       conf_champ: {
         date: '2016-01-24',
-        kickoffUtc: '23:40:00Z',
+        kickoffEt: '18:40',
         outcome: 'L',
         score: '15–49',
         opponentAbbr: 'CAR',
@@ -473,7 +474,7 @@ export const NFL_TEAMS: NflTeam[] = [
       },
       sb_appearance: {
         date: '2009-02-01',
-        kickoffUtc: '23:30:00Z',
+        kickoffEt: '18:30',
         outcome: 'L',
         score: '23–27',
         opponentAbbr: 'PIT',
@@ -499,7 +500,7 @@ export const NFL_TEAMS: NflTeam[] = [
     milestones: {
       playoff_game: {
         date: '2022-01-22',
-        kickoffUtc: '21:30:00Z',
+        kickoffEt: '16:30',
         outcome: 'L',
         score: '16–19',
         opponentAbbr: 'CIN',
@@ -509,7 +510,7 @@ export const NFL_TEAMS: NflTeam[] = [
       },
       playoff_win: {
         date: '2020-01-11',
-        kickoffUtc: '01:15:00Z',
+        kickoffEt: '20:15',
         outcome: 'W',
         score: '28–12',
         opponentAbbr: 'BAL',
@@ -519,7 +520,7 @@ export const NFL_TEAMS: NflTeam[] = [
       },
       conf_champ: {
         date: '2020-01-19',
-        kickoffUtc: '20:05:00Z',
+        kickoffEt: '15:05',
         outcome: 'L',
         score: '24–35',
         opponentAbbr: 'KC',
@@ -529,7 +530,7 @@ export const NFL_TEAMS: NflTeam[] = [
       },
       sb_appearance: {
         date: '2000-01-30',
-        kickoffUtc: '23:18:00Z',
+        kickoffEt: '18:18',
         outcome: 'L',
         score: '16–23',
         opponentAbbr: 'LAR',
@@ -555,7 +556,7 @@ export const NFL_TEAMS: NflTeam[] = [
     milestones: {
       playoff_game: {
         date: '2023-01-21',
-        kickoffUtc: '01:15:00Z',
+        kickoffEt: '20:15',
         outcome: 'L',
         score: '7–38',
         opponentAbbr: 'PHI',
@@ -565,7 +566,7 @@ export const NFL_TEAMS: NflTeam[] = [
       },
       playoff_win: {
         date: '2023-01-15',
-        kickoffUtc: '21:30:00Z',
+        kickoffEt: '16:30',
         outcome: 'W',
         score: '31–24',
         opponentAbbr: 'MIN',
@@ -575,7 +576,7 @@ export const NFL_TEAMS: NflTeam[] = [
       },
       conf_champ: {
         date: '2012-01-22',
-        kickoffUtc: '23:30:00Z',
+        kickoffEt: '18:30',
         outcome: 'W',
         score: '20–17 (OT)',
         opponentAbbr: 'SF',
@@ -585,7 +586,7 @@ export const NFL_TEAMS: NflTeam[] = [
       },
       sb_appearance: {
         date: '2012-02-05',
-        kickoffUtc: '23:30:00Z',
+        kickoffEt: '18:30',
         outcome: 'W',
         score: '21–17',
         opponentAbbr: 'NE',
@@ -595,7 +596,7 @@ export const NFL_TEAMS: NflTeam[] = [
       },
       sb_win: {
         date: '2012-02-05',
-        kickoffUtc: '23:30:00Z',
+        kickoffEt: '18:30',
         outcome: 'W',
         score: '21–17',
         opponentAbbr: 'NE',
@@ -620,7 +621,7 @@ export const NFL_TEAMS: NflTeam[] = [
     milestones: {
       playoff_game: {
         date: '2023-01-29',
-        kickoffUtc: '23:30:00Z',
+        kickoffEt: '18:30',
         outcome: 'L',
         score: '20–23',
         opponentAbbr: 'KC',
@@ -630,7 +631,7 @@ export const NFL_TEAMS: NflTeam[] = [
       },
       playoff_win: {
         date: '2023-01-22',
-        kickoffUtc: '20:00:00Z',
+        kickoffEt: '15:00',
         outcome: 'W',
         score: '27–10',
         opponentAbbr: 'BUF',
@@ -640,7 +641,7 @@ export const NFL_TEAMS: NflTeam[] = [
       },
       conf_champ: {
         date: '2023-01-29',
-        kickoffUtc: '23:30:00Z',
+        kickoffEt: '18:30',
         outcome: 'L',
         score: '20–23',
         opponentAbbr: 'KC',
@@ -650,7 +651,7 @@ export const NFL_TEAMS: NflTeam[] = [
       },
       sb_appearance: {
         date: '2022-02-13',
-        kickoffUtc: '23:30:00Z',
+        kickoffEt: '18:30',
         outcome: 'L',
         score: '20–23',
         opponentAbbr: 'LAR',
@@ -676,7 +677,7 @@ export const NFL_TEAMS: NflTeam[] = [
     milestones: {
       playoff_game: {
         date: '2024-01-13',
-        kickoffUtc: '21:30:00Z',
+        kickoffEt: '16:30',
         outcome: 'L',
         score: '14–45',
         opponentAbbr: 'HOU',
@@ -686,7 +687,7 @@ export const NFL_TEAMS: NflTeam[] = [
       },
       playoff_win: {
         date: '2021-01-10',
-        kickoffUtc: '01:15:00Z',
+        kickoffEt: '20:15',
         outcome: 'W',
         score: '48–37',
         opponentAbbr: 'PIT',
@@ -696,7 +697,7 @@ export const NFL_TEAMS: NflTeam[] = [
       },
       conf_champ: {
         date: '1990-01-14',
-        kickoffUtc: '21:00:00Z',
+        kickoffEt: '16:00',
         outcome: 'L',
         score: '21–37',
         opponentAbbr: 'DEN',
@@ -723,7 +724,7 @@ export const NFL_TEAMS: NflTeam[] = [
     milestones: {
       playoff_game: {
         date: '2024-01-13',
-        kickoffUtc: '01:10:00Z',
+        kickoffEt: '20:10',
         outcome: 'L',
         score: '7–26',
         opponentAbbr: 'KC',
@@ -733,7 +734,7 @@ export const NFL_TEAMS: NflTeam[] = [
       },
       playoff_win: {
         date: '2000-12-30',
-        kickoffUtc: '17:30:00Z',
+        kickoffEt: '12:30',
         outcome: 'W',
         score: '23–17 (OT)',
         opponentAbbr: 'IND',
@@ -743,7 +744,7 @@ export const NFL_TEAMS: NflTeam[] = [
       },
       conf_champ: {
         date: '1993-01-17',
-        kickoffUtc: '21:00:00Z',
+        kickoffEt: '16:00',
         outcome: 'L',
         score: '10–29',
         opponentAbbr: 'BUF',
@@ -753,7 +754,7 @@ export const NFL_TEAMS: NflTeam[] = [
       },
       sb_appearance: {
         date: '1985-01-20',
-        kickoffUtc: '23:15:00Z',
+        kickoffEt: '18:15',
         outcome: 'L',
         score: '16–38',
         opponentAbbr: 'SF',
@@ -763,7 +764,7 @@ export const NFL_TEAMS: NflTeam[] = [
       },
       sb_win: {
         date: '1974-01-13',
-        kickoffUtc: '20:30:00Z',
+        kickoffEt: '15:30',
         outcome: 'W',
         score: '24–7',
         opponentAbbr: 'MIN',
@@ -788,7 +789,7 @@ export const NFL_TEAMS: NflTeam[] = [
     milestones: {
       playoff_game: {
         date: '2024-01-14',
-        kickoffUtc: '21:30:00Z',
+        kickoffEt: '16:30',
         outcome: 'L',
         score: '32–48',
         opponentAbbr: 'GB',
@@ -798,7 +799,7 @@ export const NFL_TEAMS: NflTeam[] = [
       },
       playoff_win: {
         date: '2023-01-16',
-        kickoffUtc: '01:15:00Z',
+        kickoffEt: '20:15',
         outcome: 'W',
         score: '31–14',
         opponentAbbr: 'TB',
@@ -808,7 +809,7 @@ export const NFL_TEAMS: NflTeam[] = [
       },
       conf_champ: {
         date: '1996-01-14',
-        kickoffUtc: '21:00:00Z',
+        kickoffEt: '16:00',
         outcome: 'W',
         score: '38–27',
         opponentAbbr: 'GB',
@@ -818,7 +819,7 @@ export const NFL_TEAMS: NflTeam[] = [
       },
       sb_appearance: {
         date: '1996-01-28',
-        kickoffUtc: '23:25:00Z',
+        kickoffEt: '18:25',
         outcome: 'W',
         score: '27–17',
         opponentAbbr: 'PIT',
@@ -828,7 +829,7 @@ export const NFL_TEAMS: NflTeam[] = [
       },
       sb_win: {
         date: '1996-01-28',
-        kickoffUtc: '23:25:00Z',
+        kickoffEt: '18:25',
         outcome: 'W',
         score: '27–17',
         opponentAbbr: 'PIT',
@@ -853,7 +854,7 @@ export const NFL_TEAMS: NflTeam[] = [
     milestones: {
       playoff_game: {
         date: '2025-01-12',
-        kickoffUtc: '01:00:00Z',
+        kickoffEt: '20:00',
         outcome: 'L',
         score: '20–23',
         opponentAbbr: 'WAS',
@@ -863,7 +864,7 @@ export const NFL_TEAMS: NflTeam[] = [
       },
       playoff_win: {
         date: '2024-01-15',
-        kickoffUtc: '01:15:00Z',
+        kickoffEt: '20:15',
         outcome: 'W',
         score: '32–9',
         opponentAbbr: 'PHI',
@@ -873,7 +874,7 @@ export const NFL_TEAMS: NflTeam[] = [
       },
       conf_champ: {
         date: '2021-01-24',
-        kickoffUtc: '20:05:00Z',
+        kickoffEt: '15:05',
         outcome: 'W',
         score: '31–26',
         opponentAbbr: 'GB',
@@ -883,7 +884,7 @@ export const NFL_TEAMS: NflTeam[] = [
       },
       sb_appearance: {
         date: '2021-02-07',
-        kickoffUtc: '23:30:00Z',
+        kickoffEt: '18:30',
         outcome: 'W',
         score: '31–9',
         opponentAbbr: 'KC',
@@ -893,7 +894,7 @@ export const NFL_TEAMS: NflTeam[] = [
       },
       sb_win: {
         date: '2021-02-07',
-        kickoffUtc: '23:30:00Z',
+        kickoffEt: '18:30',
         outcome: 'W',
         score: '31–9',
         opponentAbbr: 'KC',
@@ -918,7 +919,7 @@ export const NFL_TEAMS: NflTeam[] = [
     milestones: {
       playoff_game: {
         date: '2025-01-13',
-        kickoffUtc: '01:00:00Z',
+        kickoffEt: '20:00',
         outcome: 'L',
         score: '9–27',
         opponentAbbr: 'LAR',
@@ -928,7 +929,7 @@ export const NFL_TEAMS: NflTeam[] = [
       },
       playoff_win: {
         date: '2020-01-05',
-        kickoffUtc: '18:05:00Z',
+        kickoffEt: '13:05',
         outcome: 'W',
         score: '26–20 (OT)',
         opponentAbbr: 'NO',
@@ -938,7 +939,7 @@ export const NFL_TEAMS: NflTeam[] = [
       },
       conf_champ: {
         date: '2018-01-21',
-        kickoffUtc: '23:40:00Z',
+        kickoffEt: '18:40',
         outcome: 'L',
         score: '7–38',
         opponentAbbr: 'PHI',
@@ -948,7 +949,7 @@ export const NFL_TEAMS: NflTeam[] = [
       },
       sb_appearance: {
         date: '1977-01-09',
-        kickoffUtc: '20:30:00Z',
+        kickoffEt: '15:30',
         outcome: 'L',
         score: '14–32',
         opponentAbbr: 'LV',
@@ -974,7 +975,7 @@ export const NFL_TEAMS: NflTeam[] = [
     milestones: {
       playoff_game: {
         date: '2025-01-18',
-        kickoffUtc: '01:00:00Z',
+        kickoffEt: '20:00',
         outcome: 'L',
         score: '31–45',
         opponentAbbr: 'WAS',
@@ -984,7 +985,7 @@ export const NFL_TEAMS: NflTeam[] = [
       },
       playoff_win: {
         date: '2024-01-21',
-        kickoffUtc: '20:00:00Z',
+        kickoffEt: '15:00',
         outcome: 'W',
         score: '31–23',
         opponentAbbr: 'TB',
@@ -994,7 +995,7 @@ export const NFL_TEAMS: NflTeam[] = [
       },
       conf_champ: {
         date: '2024-01-28',
-        kickoffUtc: '23:30:00Z',
+        kickoffEt: '18:30',
         outcome: 'L',
         score: '31–34',
         opponentAbbr: 'SF',
@@ -1021,7 +1022,7 @@ export const NFL_TEAMS: NflTeam[] = [
     milestones: {
       playoff_game: {
         date: '2025-01-19',
-        kickoffUtc: '23:30:00Z',
+        kickoffEt: '18:30',
         outcome: 'L',
         score: '25–27',
         opponentAbbr: 'BUF',
@@ -1031,7 +1032,7 @@ export const NFL_TEAMS: NflTeam[] = [
       },
       playoff_win: {
         date: '2025-01-11',
-        kickoffUtc: '01:00:00Z',
+        kickoffEt: '20:00',
         outcome: 'W',
         score: '28–14',
         opponentAbbr: 'PIT',
@@ -1041,7 +1042,7 @@ export const NFL_TEAMS: NflTeam[] = [
       },
       conf_champ: {
         date: '2024-01-28',
-        kickoffUtc: '20:00:00Z',
+        kickoffEt: '15:00',
         outcome: 'L',
         score: '10–17',
         opponentAbbr: 'KC',
@@ -1051,7 +1052,7 @@ export const NFL_TEAMS: NflTeam[] = [
       },
       sb_appearance: {
         date: '2013-02-03',
-        kickoffUtc: '23:30:00Z',
+        kickoffEt: '18:30',
         outcome: 'W',
         score: '34–31',
         opponentAbbr: 'SF',
@@ -1061,7 +1062,7 @@ export const NFL_TEAMS: NflTeam[] = [
       },
       sb_win: {
         date: '2013-02-03',
-        kickoffUtc: '23:30:00Z',
+        kickoffEt: '18:30',
         outcome: 'W',
         score: '34–31',
         opponentAbbr: 'SF',
@@ -1086,7 +1087,7 @@ export const NFL_TEAMS: NflTeam[] = [
     milestones: {
       playoff_game: {
         date: '2025-01-26',
-        kickoffUtc: '20:00:00Z',
+        kickoffEt: '15:00',
         outcome: 'L',
         score: '23–55',
         opponentAbbr: 'PHI',
@@ -1096,7 +1097,7 @@ export const NFL_TEAMS: NflTeam[] = [
       },
       playoff_win: {
         date: '2025-01-18',
-        kickoffUtc: '01:00:00Z',
+        kickoffEt: '20:00',
         outcome: 'W',
         score: '45–31',
         opponentAbbr: 'DET',
@@ -1106,7 +1107,7 @@ export const NFL_TEAMS: NflTeam[] = [
       },
       conf_champ: {
         date: '2025-01-26',
-        kickoffUtc: '20:00:00Z',
+        kickoffEt: '15:00',
         outcome: 'L',
         score: '23–55',
         opponentAbbr: 'PHI',
@@ -1116,7 +1117,7 @@ export const NFL_TEAMS: NflTeam[] = [
       },
       sb_appearance: {
         date: '1992-01-26',
-        kickoffUtc: '23:25:00Z',
+        kickoffEt: '18:25',
         outcome: 'W',
         score: '37–24',
         opponentAbbr: 'BUF',
@@ -1126,7 +1127,7 @@ export const NFL_TEAMS: NflTeam[] = [
       },
       sb_win: {
         date: '1992-01-26',
-        kickoffUtc: '23:25:00Z',
+        kickoffEt: '18:25',
         outcome: 'W',
         score: '37–24',
         opponentAbbr: 'BUF',
@@ -1151,7 +1152,7 @@ export const NFL_TEAMS: NflTeam[] = [
     milestones: {
       playoff_game: {
         date: '2025-02-09',
-        kickoffUtc: '23:30:00Z',
+        kickoffEt: '18:30',
         outcome: 'L',
         score: '22–40',
         opponentAbbr: 'PHI',
@@ -1161,7 +1162,7 @@ export const NFL_TEAMS: NflTeam[] = [
       },
       playoff_win: {
         date: '2025-01-26',
-        kickoffUtc: '23:30:00Z',
+        kickoffEt: '18:30',
         outcome: 'W',
         score: '32–29',
         opponentAbbr: 'BUF',
@@ -1171,7 +1172,7 @@ export const NFL_TEAMS: NflTeam[] = [
       },
       conf_champ: {
         date: '2025-01-26',
-        kickoffUtc: '23:30:00Z',
+        kickoffEt: '18:30',
         outcome: 'W',
         score: '32–29',
         opponentAbbr: 'BUF',
@@ -1181,7 +1182,7 @@ export const NFL_TEAMS: NflTeam[] = [
       },
       sb_appearance: {
         date: '2025-02-09',
-        kickoffUtc: '23:30:00Z',
+        kickoffEt: '18:30',
         outcome: 'L',
         score: '22–40',
         opponentAbbr: 'PHI',
@@ -1191,7 +1192,7 @@ export const NFL_TEAMS: NflTeam[] = [
       },
       sb_win: {
         date: '2024-02-11',
-        kickoffUtc: '23:30:00Z',
+        kickoffEt: '18:30',
         outcome: 'W',
         score: '25–22 (OT)',
         opponentAbbr: 'SF',
@@ -1216,7 +1217,7 @@ export const NFL_TEAMS: NflTeam[] = [
     milestones: {
       playoff_game: {
         date: '2026-01-10',
-        kickoffUtc: '21:30:00Z',
+        kickoffEt: '16:30',
         outcome: 'L',
         score: '31–34',
         opponentAbbr: 'LAR',
@@ -1226,7 +1227,7 @@ export const NFL_TEAMS: NflTeam[] = [
       },
       playoff_win: {
         date: '2016-01-24',
-        kickoffUtc: '23:40:00Z',
+        kickoffEt: '18:40',
         outcome: 'W',
         score: '49–15',
         opponentAbbr: 'ARI',
@@ -1236,7 +1237,7 @@ export const NFL_TEAMS: NflTeam[] = [
       },
       conf_champ: {
         date: '2016-01-24',
-        kickoffUtc: '23:40:00Z',
+        kickoffEt: '18:40',
         outcome: 'W',
         score: '49–15',
         opponentAbbr: 'ARI',
@@ -1246,7 +1247,7 @@ export const NFL_TEAMS: NflTeam[] = [
       },
       sb_appearance: {
         date: '2016-02-07',
-        kickoffUtc: '23:30:00Z',
+        kickoffEt: '18:30',
         outcome: 'L',
         score: '10–24',
         opponentAbbr: 'DEN',
@@ -1272,7 +1273,7 @@ export const NFL_TEAMS: NflTeam[] = [
     milestones: {
       playoff_game: {
         date: '2026-01-10',
-        kickoffUtc: '01:00:00Z',
+        kickoffEt: '20:00',
         outcome: 'L',
         score: '27–31',
         opponentAbbr: 'CHI',
@@ -1282,7 +1283,7 @@ export const NFL_TEAMS: NflTeam[] = [
       },
       playoff_win: {
         date: '2024-01-14',
-        kickoffUtc: '21:30:00Z',
+        kickoffEt: '16:30',
         outcome: 'W',
         score: '48–32',
         opponentAbbr: 'DAL',
@@ -1292,7 +1293,7 @@ export const NFL_TEAMS: NflTeam[] = [
       },
       conf_champ: {
         date: '2021-01-24',
-        kickoffUtc: '20:05:00Z',
+        kickoffEt: '15:05',
         outcome: 'L',
         score: '26–31',
         opponentAbbr: 'TB',
@@ -1302,7 +1303,7 @@ export const NFL_TEAMS: NflTeam[] = [
       },
       sb_appearance: {
         date: '2011-02-06',
-        kickoffUtc: '23:30:00Z',
+        kickoffEt: '18:30',
         outcome: 'W',
         score: '31–25',
         opponentAbbr: 'PIT',
@@ -1312,7 +1313,7 @@ export const NFL_TEAMS: NflTeam[] = [
       },
       sb_win: {
         date: '2011-02-06',
-        kickoffUtc: '23:30:00Z',
+        kickoffEt: '18:30',
         outcome: 'W',
         score: '31–25',
         opponentAbbr: 'PIT',
@@ -1337,7 +1338,7 @@ export const NFL_TEAMS: NflTeam[] = [
     milestones: {
       playoff_game: {
         date: '2026-01-11',
-        kickoffUtc: '18:00:00Z',
+        kickoffEt: '13:00',
         outcome: 'L',
         score: '24–27',
         opponentAbbr: 'BUF',
@@ -1347,7 +1348,7 @@ export const NFL_TEAMS: NflTeam[] = [
       },
       playoff_win: {
         date: '2023-01-14',
-        kickoffUtc: '01:15:00Z',
+        kickoffEt: '20:15',
         outcome: 'W',
         score: '31–30',
         opponentAbbr: 'LAC',
@@ -1357,7 +1358,7 @@ export const NFL_TEAMS: NflTeam[] = [
       },
       conf_champ: {
         date: '2018-01-21',
-        kickoffUtc: '20:05:00Z',
+        kickoffEt: '15:05',
         outcome: 'L',
         score: '20–24',
         opponentAbbr: 'NE',
@@ -1384,7 +1385,7 @@ export const NFL_TEAMS: NflTeam[] = [
     milestones: {
       playoff_game: {
         date: '2026-01-11',
-        kickoffUtc: '21:30:00Z',
+        kickoffEt: '16:30',
         outcome: 'L',
         score: '19–23',
         opponentAbbr: 'SF',
@@ -1394,7 +1395,7 @@ export const NFL_TEAMS: NflTeam[] = [
       },
       playoff_win: {
         date: '2025-02-09',
-        kickoffUtc: '23:30:00Z',
+        kickoffEt: '18:30',
         outcome: 'W',
         score: '40–22',
         opponentAbbr: 'KC',
@@ -1404,7 +1405,7 @@ export const NFL_TEAMS: NflTeam[] = [
       },
       conf_champ: {
         date: '2025-01-26',
-        kickoffUtc: '20:00:00Z',
+        kickoffEt: '15:00',
         outcome: 'W',
         score: '55–23',
         opponentAbbr: 'WAS',
@@ -1414,7 +1415,7 @@ export const NFL_TEAMS: NflTeam[] = [
       },
       sb_appearance: {
         date: '2025-02-09',
-        kickoffUtc: '23:30:00Z',
+        kickoffEt: '18:30',
         outcome: 'W',
         score: '40–22',
         opponentAbbr: 'KC',
@@ -1424,7 +1425,7 @@ export const NFL_TEAMS: NflTeam[] = [
       },
       sb_win: {
         date: '2025-02-09',
-        kickoffUtc: '23:30:00Z',
+        kickoffEt: '18:30',
         outcome: 'W',
         score: '40–22',
         opponentAbbr: 'KC',
@@ -1449,7 +1450,7 @@ export const NFL_TEAMS: NflTeam[] = [
     milestones: {
       playoff_game: {
         date: '2026-01-11',
-        kickoffUtc: '01:00:00Z',
+        kickoffEt: '20:00',
         outcome: 'L',
         score: '3–16',
         opponentAbbr: 'NE',
@@ -1459,7 +1460,7 @@ export const NFL_TEAMS: NflTeam[] = [
       },
       playoff_win: {
         date: '2019-01-06',
-        kickoffUtc: '18:05:00Z',
+        kickoffEt: '13:05',
         outcome: 'W',
         score: '23–17',
         opponentAbbr: 'BAL',
@@ -1469,7 +1470,7 @@ export const NFL_TEAMS: NflTeam[] = [
       },
       conf_champ: {
         date: '2008-01-20',
-        kickoffUtc: '20:00:00Z',
+        kickoffEt: '15:00',
         outcome: 'L',
         score: '12–21',
         opponentAbbr: 'NE',
@@ -1479,7 +1480,7 @@ export const NFL_TEAMS: NflTeam[] = [
       },
       sb_appearance: {
         date: '1995-01-29',
-        kickoffUtc: '23:25:00Z',
+        kickoffEt: '18:25',
         outcome: 'L',
         score: '26–49',
         opponentAbbr: 'SF',
@@ -1505,7 +1506,7 @@ export const NFL_TEAMS: NflTeam[] = [
     milestones: {
       playoff_game: {
         date: '2026-01-12',
-        kickoffUtc: '01:15:00Z',
+        kickoffEt: '20:15',
         outcome: 'L',
         score: '6–30',
         opponentAbbr: 'HOU',
@@ -1515,7 +1516,7 @@ export const NFL_TEAMS: NflTeam[] = [
       },
       playoff_win: {
         date: '2017-01-15',
-        kickoffUtc: '01:20:00Z',
+        kickoffEt: '20:20',
         outcome: 'W',
         score: '18–16',
         opponentAbbr: 'KC',
@@ -1525,7 +1526,7 @@ export const NFL_TEAMS: NflTeam[] = [
       },
       conf_champ: {
         date: '2017-01-22',
-        kickoffUtc: '23:40:00Z',
+        kickoffEt: '18:40',
         outcome: 'L',
         score: '17–36',
         opponentAbbr: 'NE',
@@ -1535,7 +1536,7 @@ export const NFL_TEAMS: NflTeam[] = [
       },
       sb_appearance: {
         date: '2011-02-06',
-        kickoffUtc: '23:30:00Z',
+        kickoffEt: '18:30',
         outcome: 'L',
         score: '25–31',
         opponentAbbr: 'GB',
@@ -1545,7 +1546,7 @@ export const NFL_TEAMS: NflTeam[] = [
       },
       sb_win: {
         date: '2009-02-01',
-        kickoffUtc: '23:30:00Z',
+        kickoffEt: '18:30',
         outcome: 'W',
         score: '27–23',
         opponentAbbr: 'ARI',
@@ -1570,7 +1571,7 @@ export const NFL_TEAMS: NflTeam[] = [
     milestones: {
       playoff_game: {
         date: '2026-01-17',
-        kickoffUtc: '21:30:00Z',
+        kickoffEt: '16:30',
         outcome: 'L',
         score: '30–33 (OT)',
         opponentAbbr: 'DEN',
@@ -1580,7 +1581,7 @@ export const NFL_TEAMS: NflTeam[] = [
       },
       playoff_win: {
         date: '2026-01-11',
-        kickoffUtc: '18:00:00Z',
+        kickoffEt: '13:00',
         outcome: 'W',
         score: '27–24',
         opponentAbbr: 'JAX',
@@ -1590,7 +1591,7 @@ export const NFL_TEAMS: NflTeam[] = [
       },
       conf_champ: {
         date: '2025-01-26',
-        kickoffUtc: '23:30:00Z',
+        kickoffEt: '18:30',
         outcome: 'L',
         score: '29–32',
         opponentAbbr: 'KC',
@@ -1600,7 +1601,7 @@ export const NFL_TEAMS: NflTeam[] = [
       },
       sb_appearance: {
         date: '1994-01-30',
-        kickoffUtc: '23:25:00Z',
+        kickoffEt: '18:25',
         outcome: 'L',
         score: '13–30',
         opponentAbbr: 'DAL',
@@ -1626,7 +1627,7 @@ export const NFL_TEAMS: NflTeam[] = [
     milestones: {
       playoff_game: {
         date: '2026-01-17',
-        kickoffUtc: '01:00:00Z',
+        kickoffEt: '20:00',
         outcome: 'L',
         score: '6–41',
         opponentAbbr: 'SEA',
@@ -1636,7 +1637,7 @@ export const NFL_TEAMS: NflTeam[] = [
       },
       playoff_win: {
         date: '2026-01-11',
-        kickoffUtc: '21:30:00Z',
+        kickoffEt: '16:30',
         outcome: 'W',
         score: '23–19',
         opponentAbbr: 'PHI',
@@ -1646,7 +1647,7 @@ export const NFL_TEAMS: NflTeam[] = [
       },
       conf_champ: {
         date: '2024-01-28',
-        kickoffUtc: '23:30:00Z',
+        kickoffEt: '18:30',
         outcome: 'W',
         score: '34–31',
         opponentAbbr: 'DET',
@@ -1656,7 +1657,7 @@ export const NFL_TEAMS: NflTeam[] = [
       },
       sb_appearance: {
         date: '2024-02-11',
-        kickoffUtc: '23:30:00Z',
+        kickoffEt: '18:30',
         outcome: 'L',
         score: '22–25 (OT)',
         opponentAbbr: 'KC',
@@ -1666,7 +1667,7 @@ export const NFL_TEAMS: NflTeam[] = [
       },
       sb_win: {
         date: '1995-01-29',
-        kickoffUtc: '23:25:00Z',
+        kickoffEt: '18:25',
         outcome: 'W',
         score: '49–26',
         opponentAbbr: 'LAC',
@@ -1691,7 +1692,7 @@ export const NFL_TEAMS: NflTeam[] = [
     milestones: {
       playoff_game: {
         date: '2026-01-18',
-        kickoffUtc: '20:00:00Z',
+        kickoffEt: '15:00',
         outcome: 'L',
         score: '17–20',
         opponentAbbr: 'LAR',
@@ -1701,7 +1702,7 @@ export const NFL_TEAMS: NflTeam[] = [
       },
       playoff_win: {
         date: '2026-01-10',
-        kickoffUtc: '01:00:00Z',
+        kickoffEt: '20:00',
         outcome: 'W',
         score: '31–27',
         opponentAbbr: 'GB',
@@ -1711,7 +1712,7 @@ export const NFL_TEAMS: NflTeam[] = [
       },
       conf_champ: {
         date: '2011-01-23',
-        kickoffUtc: '20:00:00Z',
+        kickoffEt: '15:00',
         outcome: 'L',
         score: '14–21',
         opponentAbbr: 'GB',
@@ -1721,7 +1722,7 @@ export const NFL_TEAMS: NflTeam[] = [
       },
       sb_appearance: {
         date: '2007-02-04',
-        kickoffUtc: '23:25:00Z',
+        kickoffEt: '18:25',
         outcome: 'L',
         score: '17–29',
         opponentAbbr: 'IND',
@@ -1731,7 +1732,7 @@ export const NFL_TEAMS: NflTeam[] = [
       },
       sb_win: {
         date: '1986-01-26',
-        kickoffUtc: '22:00:00Z',
+        kickoffEt: '17:00',
         outcome: 'W',
         score: '46–10',
         opponentAbbr: 'NE',
@@ -1756,7 +1757,7 @@ export const NFL_TEAMS: NflTeam[] = [
     milestones: {
       playoff_game: {
         date: '2026-01-18',
-        kickoffUtc: '23:30:00Z',
+        kickoffEt: '18:30',
         outcome: 'L',
         score: '16–28',
         opponentAbbr: 'NE',
@@ -1766,7 +1767,7 @@ export const NFL_TEAMS: NflTeam[] = [
       },
       playoff_win: {
         date: '2026-01-12',
-        kickoffUtc: '01:15:00Z',
+        kickoffEt: '20:15',
         outcome: 'W',
         score: '30–6',
         opponentAbbr: 'PIT',
@@ -1794,7 +1795,7 @@ export const NFL_TEAMS: NflTeam[] = [
     milestones: {
       playoff_game: {
         date: '2026-01-25',
-        kickoffUtc: '20:00:00Z',
+        kickoffEt: '15:00',
         outcome: 'L',
         score: '7–10',
         opponentAbbr: 'NE',
@@ -1804,7 +1805,7 @@ export const NFL_TEAMS: NflTeam[] = [
       },
       playoff_win: {
         date: '2026-01-17',
-        kickoffUtc: '21:30:00Z',
+        kickoffEt: '16:30',
         outcome: 'W',
         score: '33–30 (OT)',
         opponentAbbr: 'BUF',
@@ -1814,7 +1815,7 @@ export const NFL_TEAMS: NflTeam[] = [
       },
       conf_champ: {
         date: '2026-01-25',
-        kickoffUtc: '20:00:00Z',
+        kickoffEt: '15:00',
         outcome: 'L',
         score: '7–10',
         opponentAbbr: 'NE',
@@ -1824,7 +1825,7 @@ export const NFL_TEAMS: NflTeam[] = [
       },
       sb_appearance: {
         date: '2016-02-07',
-        kickoffUtc: '23:30:00Z',
+        kickoffEt: '18:30',
         outcome: 'W',
         score: '24–10',
         opponentAbbr: 'CAR',
@@ -1834,7 +1835,7 @@ export const NFL_TEAMS: NflTeam[] = [
       },
       sb_win: {
         date: '2016-02-07',
-        kickoffUtc: '23:30:00Z',
+        kickoffEt: '18:30',
         outcome: 'W',
         score: '24–10',
         opponentAbbr: 'CAR',
@@ -1859,7 +1860,7 @@ export const NFL_TEAMS: NflTeam[] = [
     milestones: {
       playoff_game: {
         date: '2026-01-25',
-        kickoffUtc: '23:30:00Z',
+        kickoffEt: '18:30',
         outcome: 'L',
         score: '27–31',
         opponentAbbr: 'SEA',
@@ -1869,7 +1870,7 @@ export const NFL_TEAMS: NflTeam[] = [
       },
       playoff_win: {
         date: '2026-01-18',
-        kickoffUtc: '20:00:00Z',
+        kickoffEt: '15:00',
         outcome: 'W',
         score: '20–17',
         opponentAbbr: 'CHI',
@@ -1879,7 +1880,7 @@ export const NFL_TEAMS: NflTeam[] = [
       },
       conf_champ: {
         date: '2026-01-25',
-        kickoffUtc: '23:30:00Z',
+        kickoffEt: '18:30',
         outcome: 'L',
         score: '27–31',
         opponentAbbr: 'SEA',
@@ -1889,7 +1890,7 @@ export const NFL_TEAMS: NflTeam[] = [
       },
       sb_appearance: {
         date: '2022-02-13',
-        kickoffUtc: '23:30:00Z',
+        kickoffEt: '18:30',
         outcome: 'W',
         score: '23–20',
         opponentAbbr: 'CIN',
@@ -1899,7 +1900,7 @@ export const NFL_TEAMS: NflTeam[] = [
       },
       sb_win: {
         date: '2022-02-13',
-        kickoffUtc: '23:30:00Z',
+        kickoffEt: '18:30',
         outcome: 'W',
         score: '23–20',
         opponentAbbr: 'CIN',
@@ -1924,7 +1925,7 @@ export const NFL_TEAMS: NflTeam[] = [
     milestones: {
       playoff_game: {
         date: '2026-02-08',
-        kickoffUtc: '23:30:00Z',
+        kickoffEt: '18:30',
         outcome: 'L',
         score: '13–29',
         opponentAbbr: 'SEA',
@@ -1934,7 +1935,7 @@ export const NFL_TEAMS: NflTeam[] = [
       },
       playoff_win: {
         date: '2026-01-25',
-        kickoffUtc: '20:00:00Z',
+        kickoffEt: '15:00',
         outcome: 'W',
         score: '10–7',
         opponentAbbr: 'DEN',
@@ -1944,7 +1945,7 @@ export const NFL_TEAMS: NflTeam[] = [
       },
       conf_champ: {
         date: '2026-01-25',
-        kickoffUtc: '20:00:00Z',
+        kickoffEt: '15:00',
         outcome: 'W',
         score: '10–7',
         opponentAbbr: 'DEN',
@@ -1954,7 +1955,7 @@ export const NFL_TEAMS: NflTeam[] = [
       },
       sb_appearance: {
         date: '2026-02-08',
-        kickoffUtc: '23:30:00Z',
+        kickoffEt: '18:30',
         outcome: 'L',
         score: '13–29',
         opponentAbbr: 'SEA',
@@ -1964,7 +1965,7 @@ export const NFL_TEAMS: NflTeam[] = [
       },
       sb_win: {
         date: '2019-02-03',
-        kickoffUtc: '23:30:00Z',
+        kickoffEt: '18:30',
         outcome: 'W',
         score: '13–3',
         opponentAbbr: 'LAR',
@@ -1989,7 +1990,7 @@ export const NFL_TEAMS: NflTeam[] = [
     milestones: {
       playoff_game: {
         date: '2026-02-08',
-        kickoffUtc: '23:30:00Z',
+        kickoffEt: '18:30',
         outcome: 'W',
         score: '29–13',
         opponentAbbr: 'NE',
@@ -1999,7 +2000,7 @@ export const NFL_TEAMS: NflTeam[] = [
       },
       playoff_win: {
         date: '2026-02-08',
-        kickoffUtc: '23:30:00Z',
+        kickoffEt: '18:30',
         outcome: 'W',
         score: '29–13',
         opponentAbbr: 'NE',
@@ -2009,7 +2010,7 @@ export const NFL_TEAMS: NflTeam[] = [
       },
       conf_champ: {
         date: '2026-01-25',
-        kickoffUtc: '23:30:00Z',
+        kickoffEt: '18:30',
         outcome: 'W',
         score: '31–27',
         opponentAbbr: 'LAR',
@@ -2019,7 +2020,7 @@ export const NFL_TEAMS: NflTeam[] = [
       },
       sb_appearance: {
         date: '2026-02-08',
-        kickoffUtc: '23:30:00Z',
+        kickoffEt: '18:30',
         outcome: 'W',
         score: '29–13',
         opponentAbbr: 'NE',
@@ -2029,7 +2030,7 @@ export const NFL_TEAMS: NflTeam[] = [
       },
       sb_win: {
         date: '2026-02-08',
-        kickoffUtc: '23:30:00Z',
+        kickoffEt: '18:30',
         outcome: 'W',
         score: '29–13',
         opponentAbbr: 'NE',
