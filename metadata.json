@@ -1,0 +1,6 @@
+{
+  "name": "Droughts in Vice & Liberty",
+  "description": "Measuring NFL franchise postseason misery in Grand Theft Auto release eras across all 32 teams.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

@@ -1,11 +1,26 @@
-<div align="center">
+# Droughts in Vice & Liberty (`nflgtaclock.github.io`)
 
-<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
+Measuring NFL franchise postseason misery in Grand Theft Auto release eras across all 32 teams.
 
-  <h1>Built with AI Studio</h2>
+**Live Organization Site:** https://nflgtaclock.github.io/
 
-  <p>The fastest path from prompt to production with Gemini.</p>
+## Local Development
 
-  <a href="https://aistudio.google.com/apps">Start building</a>
+```bash
+npm install
+npm run dev
+```
 
-</div>
+## Deploying to the `nflgtaclock` GitHub Organization Page
+
+1. Create a public repository named **`nflgtaclock.github.io`** under the [`nflgtaclock`](https://github.com/nflgtaclock) organization.
+2. Push this codebase to the `main` branch:
+   ```bash
+   git init -b main
+   git add .
+   git commit -m "Initial deploy: Droughts in Vice & Liberty"
+   git remote add origin https://github.com/nflgtaclock/nflgtaclock.github.io.git
+   git push -u origin main
+   ```
+3. In GitHub, open **Settings → Pages** for `nflgtaclock/nflgtaclock.github.io` and set **Build and deployment → Source** to **GitHub Actions**.
+4. The included `.github/workflows/deploy.yml` workflow will build the Vite bundle and publish it to **`https://nflgtaclock.github.io/`** on every push to `main`.
